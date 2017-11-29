@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
 
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - 
+    <!-- - - - - - - - - - - - - - - - - - - - - - - -
 
     Theme name: Wanderlust
     Theme Author: CMDR Edfa
@@ -16,7 +16,7 @@
     <title>{Title}{block:PostTitle} - {PostTitle}{/block:PostTitle}</title>
 
     <!-- Normalize -->
-    <link rel="stylesheet" src="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css"> 
+    <link rel="stylesheet" src="https://cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css">
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -35,15 +35,39 @@
     <link rel="alternate" type="application/rss+xml" href="{RSS}">
 
     <!-- Google fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Barlow+Condensed:300i,400|Raleway" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Barlow+Condensed:300i,400|Raleway">
+
+    <!-- Izimodal -->
+    <link rel="stylesheet" href="https://unpkg.com/izimodal@1.5.1/css/iziModal.min.css">
 
     <style>
       /* Theme Core CSS */
 
-      /* for enquire.js */
-      @media (min-width: 768px) {
+      /* x-small */
+      @media (max-width: 768px) {
+        .iziModal:not(.isFullscreen) {
+          width: calc(100% - 40px);
+        }
       }
-      
+      /* small */
+      @media (min-width: 768px) {
+        .iziModal:not(.isFullscreen) {
+          width: 750px;
+        }
+      }
+      /* medium */
+      @media (min-width: 992px) {
+        .iziModal:not(.isFullscreen) {
+          width: 970px;
+        }
+      }
+      /* large */
+      @media (min-width: 1200px) {
+        .iziModal:not(.isFullscreen) {
+          width: 1170px;
+        }
+      }
+
       /* header */
       .header {
         height: calc(100vh + 50px);
@@ -53,8 +77,6 @@
         align-items: center;
         align-content: space-between;
         margin-bottom: -40px;
-        
-        background: red; /* DEBUG */
       }
       .header .title {
         align-self: center;
@@ -74,15 +96,24 @@
       .header #scroll-boop {
         align-self: center;
         position: absolute;
-        bottom: 10%;
+        bottom: 8%;
         cursor: pointer;
-        height: 50px;
-        width: 50px;
+        height: 45px;
+        width: 28px;
         display: flex;
         justify-content: center;
         align-items: center;
-
-        background: grey; /* DEBUG */
+        border-radius: 25px;
+      }
+      .header #scroll-boop span {
+        transform: rotate(-90deg);
+        font-size: 30px;
+        position: relative;
+        bottom: 0px;
+        left: -2px;
+      }
+      .header #scroll-boop:hover span {
+        bottom: -5px
       }
       .header .ed {
         position: absolute;
@@ -124,9 +155,11 @@
       .grid-content {
         width: 100%;
         height: 100%;
-        margin: 0;
+        margin: -1px;
         overflow: hidden;
         position: relative;
+        border: solid 1px #a5b4ac1a;
+        box-sizing: content-box;
       }
       .grid-content {
         padding-bottom: calc(50% - 15px);
@@ -190,6 +223,46 @@
            -moz-user-select: none;
                 user-select: none;
       }
+
+      /* modal */
+      .modal .iziModal-header-buttons {
+        top: 8px;
+        margin: 0;
+      }
+      .modal .iziModal-button {
+        opacity: .6;
+      }
+      .modal .iziModal-button:hover {
+        opacity: .9;
+      }
+      .modal.isFullscreen .iziModal-button {
+        height: 42px;
+        width: 42px;
+      }
+      .modal .post-media {
+        padding: 0 !important;
+        width: 100%;
+        display: flex;
+      }
+      .modal .post-media img {
+        width: 100%;
+        height: auto;
+        align-self: center;
+        margin: 0 auto;
+      }
+      .modal .post-media img.portrait {
+        width: auto;
+        max-height: 100vh;
+      }
+      .modal .post-media img.isFullscreen {
+        width: auto;
+        height: auto;
+        max-width: 100vh;
+        max-height: initial;
+      }
+      .modal .iziModal-wrap {
+        overflow-y: hidden !important;
+      }
     </style>
 
     <style>
@@ -197,30 +270,53 @@
 
       /*  colors */
       body {
-        background-color: #222;
+        background-color: #0c111d;
+        background-image: url(../Resources/raster.png);
+        background-repeat: repeat;
+        background-attachment: fixed;
+        background-blend-mode: multiply;
+        color: #eefff6;
       }
-
+      .header{
+        border: solid 1px #a5b4ac1a;
+      }
+      .header #scroll-boop {
+        border: solid 2px #c7ffe1;
+        opacity: 0.6;
+        background-color: #eefff61a;
+        color: #c7ffe1;
+        font-weight: bold;
+      }
+      .header #scroll-boop:hover {
+        border: solid 2px #eefff6;
+        opacity: 1;
+        bottom: 7%;
+        color: #eefff6;
+      }
       .title {
-        color: #fff;
+        color: #eefff6;
         text-shadow: 2px 2px 20px #222;
       }
       .ed svg {
-        fill: #fff;
+        fill: #c7ffe1;
         filter: drop-shadow(2px 2px 15px #222);
         opacity: 0.6;
       }
       .ed:hover svg {
-        fill: #fff;
-        filter: drop-shadow(2px 2px 20px #fff);
+        fill: #eefff6;
+        filter: drop-shadow(2px 2px 20px #eefff699);
         opacity: 1;
       }
       .ed p,
       .grid-item-cover {
-        color: #fff;
+        color: #eefff6;
         text-shadow: 2px 2px 10px #222;
       }
       .ed p span {
         color: #ffffffab;
+      }
+      .modal .iziModal-button {
+        filter: drop-shadow(2px 2px 5px #222);
       }
 
       /* font */
@@ -234,12 +330,15 @@
 
       /* images */
       .header {
-        background: url("./bg.png") no-repeat center fixed;
+        background: url("../Resources/raster.png") repeat fixed, url("./bg.png") no-repeat center fixed #00C556;
+        background-blend-mode: hard-light;
       }
 
       /* animations */
       .ed svg,
-      .ed p {
+      .ed p,
+      #scroll-boop,
+      #scroll-boop span {
         -webkit-transition: all  .3s  ease-out;
            -moz-transition: all  .3s  ease-out;
                 transition: all  .3s  ease-out;
@@ -249,6 +348,12 @@
              transition:      filter  .5s  ease,
                       -webkit-filter  .5s  ease,
                            transform  .3s  ease-out;
+      }
+
+      .header {
+        -webkit-transition: all  1s  ease-out;
+           -moz-transition: all  1s  ease-out;
+                transition: all  1s  ease-out;
       }
 
       /* grid padding */
@@ -268,7 +373,7 @@
             <h2>The Photographer's Guide To The Galaxy</h2>
           </div>
           <div id="scroll-boop">
-            V
+            <span>&laquo;</span>
           </div>
           <a href="https://www.edsm.net/en/system/id/101831/name/CXOU+J061705.3%2B222127"><div class="ed">
               <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 898.682 787.898" fill="#fff">
@@ -285,22 +390,53 @@
       <div class="container content-area" id="content">
         <div class="row" id="grid">
           <div class="grid-sizer col-xs-12 col-sm-6 col-md-4"></div>
-          <div class="grid-item photo-post col-xs-12 col-sm-6 col-md-4">
-            <div class="grid-content">
-              <img src="https://www.elitedangerous.com/_media/screenshots/screenshot-01.jpg">
-              <a href="#"><div class="grid-item-cover">
-                <h1>"Title"</h1>
-              </div></a>
+
+          <article id="tmblr-id-here" class="post photo">
+            <div class="grid-item col-xs-12 col-sm-6 col-md-4">
+              <div class="grid-content">
+                <img src="https://www.elitedangerous.com/_media/screenshots/screenshot-01.jpg">
+                <a href="" class="trigger"><div class="grid-item-cover">
+                  <h1>"Title"</h1>
+                </div></a>
+              </div>
             </div>
-          </div>
-          <div class="grid-item col-xs-12 col-sm-6 col-md-4">
-            <div class="grid-content">
-              <img src="http://i.imgur.com/m7IdzOT.jpg">
-              <a href="#"><div class="grid-item-cover">
+            <div class="modal">
+                <div class="iziModal-header-buttons">
+                  <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+                  <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+                </div>
+              <div class="post-media">
+                <img src="https://www.elitedangerous.com/_media/screenshots/screenshot-01.jpg">
+              </div>
+              <div class="container">
                 <h1>"Title"</h1>
-              </div></a>
+              </div>
             </div>
-          </div>
+          </article>
+
+          <article id="tmblr-id-here" class="post photo">
+            <div class="grid-item col-xs-12 col-sm-6 col-md-4">
+              <div class="grid-content">
+                <img src="http://i.imgur.com/m7IdzOT.jpg">
+                <a href="" class="trigger"><div class="grid-item-cover">
+                  <h1>"Title"</h1>
+                </div></a>
+              </div>
+            </div>
+            <div class="modal">
+                <div class="iziModal-header-buttons">
+                  <a href="javascript:void(0)" class="iziModal-button iziModal-button-close" data-izimodal-close=""></a>
+                  <a href="javascript:void(0)" class="iziModal-button iziModal-button-fullscreen" data-izimodal-fullscreen=""></a>
+                </div>
+              <div class="post-media">
+                <img src="http://i.imgur.com/m7IdzOT.jpg">
+              </div>
+              <div class="container">
+                <h1>"Title"</h1>
+              </div>
+            </div>
+          </article>
+
           <div class="grid-item col-xs-12 col-sm-6 col-md-4">
             <div class="grid-content">
               <img src="https://www.elitedangerous.com/_media/screenshots/screenshot-02.jpg">
@@ -389,32 +525,34 @@
     <script src="https://unpkg.com/gsap@1.20.3/src/minified/TweenMax.min.js"></script>
     <script src="https://unpkg.com/gsap@1.20.3/src/minified/plugins/ScrollToPlugin.min.js"></script>
     <script src="https://unpkg.com/css-element-queries@0.4.0/src/ResizeSensor.js"></script>
+    <script src="https://unpkg.com/izimodal@1.5.1/js/iziModal.min.js"></script>
+    <script src="https://unpkg.com/perfect-scrollbar@1.2.0/dist/perfect-scrollbar.min.js"></script>
 
     <script>
       /** * * * * * * * * * * * *
        ** Smooth scroll
        ** * * * * * * * * * * * */
-      enquire.register("(min-width: 768px)", {
-        match : function() {
-          var $window = $(window);
-          var scrollTime = 0.7;
-          var scrollDistance = 300;
+      // enquire.register("(min-width: 768px)", {
+      //   match : function() {
+      //     var $window = $(window);
+      //     var scrollTime = 0.7;
+      //     var scrollDistance = 300;
 
-          $window.on("mousewheel DOMMouseScroll", function(event){
-            event.preventDefault();	
+      //     $window.on("mousewheel DOMMouseScroll", function(event){
+      //       event.preventDefault();
 
-            var delta = event.originalEvent.wheelDelta/120 || -event.originalEvent.detail/3;
-            var scrollTop = $window.scrollTop();
-            var finalScroll = scrollTop - parseInt(delta*scrollDistance);
+      //       var delta = event.originalEvent.wheelDelta/120 || -event.originalEvent.detail/3;
+      //       var scrollTop = $window.scrollTop();
+      //       var finalScroll = scrollTop - parseInt(delta*scrollDistance);
 
-            TweenMax.to($window, scrollTime, {
-                scrollTo : { y: finalScroll, autoKill:true },
-                    ease: Power1.easeOut,
-                    overwrite: 5							
-            });
-          });
-        }
-      });
+      //       TweenMax.to($window, scrollTime, {
+      //           scrollTo : { y: finalScroll, autoKill:true },
+      //               ease: Power1.easeOut,
+      //               overwrite: 5
+      //       });
+      //     });
+      //   }
+      // });
 
       /** * * * * * * * * * * * *
        ** Init isotope
@@ -429,6 +567,35 @@
           columnWidth: '.grid-sizer'
         }
       });
+
+      /** * * * * * * * * * * * *
+       ** Init iziModal
+       ** * * * * * * * * * * * */
+      $(document).on('click', '.trigger', function (event) {
+        event.preventDefault();
+        $(this).parents('article').children('.modal').iziModal('open');
+      });
+
+      $('.modal').iziModal({
+        group: 'posts',
+        fullscreen: true,
+        headerColor: '#000',
+        background: '#000',
+        padding: 0,
+        overlayClose: true,
+        width: 1170,
+        bodyOverflow: true,
+        appendTo: false,
+        onFullscreen: function() {
+          $('.modal .post-media img').toggleClass('isFullscreen')
+        //   ps.update();
+        }
+      });
+
+      /** * * * * * * * * * * * *
+       ** Init perfect-scrollbar
+       ** * * * * * * * * * * * */
+      //const ps = new PerfectScrollbar('.iziModal-wrap')
 
       /** * * * * * * * * * * * *
        ** Run stuff after each image loads
@@ -464,19 +631,29 @@
               }
             });
           }
-          
+
           // Fit image to parent aspect ratio
           if ($img.width() / $img.height() > $parent.width() / $parent.height()) {
             $img.addClass('portrait');
           } else if ($img.hasClass('portrait')) {
             $img.removeClass('portrait');
+          }
+        });
+
+        $('.modal .post-media').children('img').each( function() {
+          img = this;
+          // Give portrait class to images in portrait mode
+          if (img.height > img.width) {
+            $(this).addClass('portrait');
           };
         });
-        
+
         // Relayout isotope
         $grid.isotope('layout');
       });
 
+      /**
+       **/
       new ResizeSensor(jQuery('.grid-item'), function() {
         // Re-fit image to parent aspect ratio
         $('.grid-content img').each( function() {
@@ -487,7 +664,7 @@
             $img.addClass('portrait');
           } else if ($img.hasClass('portrait')) {
             $img.removeClass('portrait');
-          };
+          }
         });
       });
 
