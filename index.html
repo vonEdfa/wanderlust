@@ -77,6 +77,7 @@
         align-items: center;
         align-content: space-between;
         margin-bottom: -40px;
+        position: relative;
       }
       .header .title {
         align-self: center;
@@ -96,7 +97,7 @@
       .header #scroll-boop {
         align-self: center;
         position: absolute;
-        bottom: 8%;
+        bottom: calc(8% + 50px);
         cursor: pointer;
         height: 45px;
         width: 28px;
@@ -104,6 +105,9 @@
         justify-content: center;
         align-items: center;
         border-radius: 25px;
+      }
+      .header #scroll-boop:hover {
+        bottom: calc(7% + 50px);
       }
       .header #scroll-boop span {
         transform: rotate(-90deg);
@@ -117,7 +121,7 @@
       }
       .header .ed {
         position: absolute;
-        bottom: 35px;
+        bottom: calc(35px + 50px);
         right: 55px;
         height: 60px;
         width: 60px;
@@ -254,15 +258,30 @@
         width: auto;
         max-height: 100vh;
       }
-      .modal .post-media img.isFullscreen {
+      .modal.isFullscreen .post-media img {
         width: auto;
         height: auto;
-        max-width: 100vh;
+        max-width: 100vw;
         max-height: initial;
       }
-      .modal .iziModal-wrap {
-        overflow-y: hidden !important;
+      .modal .offCanvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: calc(300px + 34px);
+        height: 100%;
       }
+      .modal .post-text {
+        width: 300px;
+
+        background: purple; /* DEBUG */
+      }
+      .modal .info-button {
+        background: red; /* DEBUG */
+      }
+      /* .modal .iziModal-wrap {
+        overflow-y: hidden !important;
+      } */
     </style>
 
     <style>
@@ -271,14 +290,14 @@
       /*  colors */
       body {
         background-color: #0c111d;
-        background-image: url(../Resources/raster.png);
+        background-image: url(./raster30.png);
         background-repeat: repeat;
         background-attachment: fixed;
         background-blend-mode: multiply;
         color: #eefff6;
       }
       .header{
-        border: solid 1px #a5b4ac1a;
+        border-bottom: solid 1px #a5b4ac1a;
       }
       .header #scroll-boop {
         border: solid 2px #c7ffe1;
@@ -290,7 +309,6 @@
       .header #scroll-boop:hover {
         border: solid 2px #eefff6;
         opacity: 1;
-        bottom: 7%;
         color: #eefff6;
       }
       .title {
@@ -318,6 +336,12 @@
       .modal .iziModal-button {
         filter: drop-shadow(2px 2px 5px #222);
       }
+      .modal {
+        background-color: #000;
+        background-image: url(./raster30.png);
+        background-repeat: repeat;
+        background-attachment: fixed;
+      }
 
       /* font */
       .title h1 {
@@ -330,7 +354,7 @@
 
       /* images */
       .header {
-        background: url("../Resources/raster.png") repeat fixed, url("./bg.png") no-repeat center fixed #00C556;
+        background: url("./raster20.png") repeat fixed, url("./bg.png") no-repeat center fixed #00C556;
         background-blend-mode: hard-light;
       }
 
@@ -372,9 +396,9 @@
             <h1>Wanderlust</h1>
             <h2>The Photographer's Guide To The Galaxy</h2>
           </div>
-          <div id="scroll-boop">
+          <a href="#content"><div id="scroll-boop">
             <span>&laquo;</span>
-          </div>
+          </div></a>
           <a href="https://www.edsm.net/en/system/id/101831/name/CXOU+J061705.3%2B222127"><div class="ed">
               <svg xmlns="http://www.w3.org/2000/svg" xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="0 0 898.682 787.898" fill="#fff">
                 <path d="M663.693,183.168l13.534-12.623c-59.958-58.195-141.73-94.039-231.887-94.039c-9.6,0-19.1,0.41-28.49,1.21 c3.812-0.14,7.642-0.21,11.49-0.21C521.945,77.506,605.997,118.349,663.693,183.168z"/>
@@ -408,9 +432,12 @@
               <div class="post-media">
                 <img src="https://www.elitedangerous.com/_media/screenshots/screenshot-01.jpg">
               </div>
-              <div class="container">
-                <h1>"Title"</h1>
-              </div>
+              <div class="offCanvas">
+                  <div class="post-text">
+                    <h1>"Title"</h1>
+                  </div>
+                  <div class="iziModal-button info-button"></div>
+                </div>
             </div>
           </article>
 
@@ -431,8 +458,11 @@
               <div class="post-media">
                 <img src="http://i.imgur.com/m7IdzOT.jpg">
               </div>
-              <div class="container">
-                <h1>"Title"</h1>
+              <div class="offCanvas">
+                <div class="post-text">
+                  <h1>"Title"</h1>
+                </div>
+                <div class"iziModal-button info-button"></div>
               </div>
             </div>
           </article>
@@ -579,13 +609,13 @@
       $('.modal').iziModal({
         group: 'posts',
         fullscreen: true,
-        headerColor: '#000',
-        background: '#000',
+        radius: 2,
         padding: 0,
         overlayClose: true,
         width: 1170,
         bodyOverflow: true,
         appendTo: false,
+        //restoreDefaultContent: true,
         onFullscreen: function() {
           $('.modal .post-media img').toggleClass('isFullscreen')
         //   ps.update();
@@ -669,13 +699,15 @@
       });
 
       // Scroll to top
-      $(".back-top").click(function() {
+      $(".back-top").click(function(event) {
+        event.preventDefault();
         $("html, body").animate({scrollTop: 0}, 800);
         return false;
       });
 
       // Scroll to content
-      $("#scroll-boop").click(function() {
+      $("#scroll-boop").click(function(event) {
+        event.preventDefault();
         $("html, body").animate({
           scrollTop: $("#content").offset().top
         }, 800);
